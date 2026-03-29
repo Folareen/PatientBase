@@ -1,0 +1,24 @@
+FROM node:20-alpine
+
+WORKDIR /app
+
+# Install pnpm
+RUN npm install -g pnpm
+
+# Copy workspace config
+COPY pnpm-workspace.yaml package.json pnpm-lock.yaml ./
+
+# Copy package.json files first (layer caching)
+COPY packages/ui/package.json ./packages/ui/
+COPY apps/api/package.json ./apps/api/
+
+# Install all deps including devDependencies
+RUN pnpm install --frozen-lockfile
+
+# Copy source (will be overridden by volume mount in docker-compose)
+COPY packages ./packages
+COPY apps/api ./apps/api
+
+EXPOSE 3000
+
+CMD ["pnpm", "run", "-F", "@clinora/api", "dev"]

@@ -1,0 +1,21 @@
+{
+    "name": "clinora",
+    "version": "1.0.0",
+    "description": "Clinora monorepo",
+    "private": true,
+    "packageManager": "pnpm@10.32.1",
+    "scripts": {
+        "dev": "docker-compose up -d && turbo run dev --filter=@clinora/web --filter=@clinora/mobile",
+        "build": "turbo run build",
+        "test": "turbo run test",
+        "lint": "turbo run lint",
+        "docker:up": "docker-compose up",
+        "docker:up:build": "docker-compose up --build",
+        "docker:down": "docker-compose down",
+        "docker:down:volumes": "docker-compose down -v",
+        "docker:logs": "docker-compose logs -f api"
+    },
+    "devDependencies": {
+        "turbo": "^2.0.0"
+    }
+}
